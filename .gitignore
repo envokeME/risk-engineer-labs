@@ -1,5 +1,7 @@
-.env*
-runtime/
-__pycache__/
-.venv/
-.ipynb_checkpoints/
+**/.env*
+**/runtime/
+**/data/
+**/__pycache__/
+**/.venv/
+**/.ipynb_checkpoints/
+**/*.zip

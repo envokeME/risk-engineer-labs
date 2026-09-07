@@ -14,7 +14,7 @@ Engine revision: investigation-harness-3. Pinned model: gpt-4.1-mini-2025-04-14.
 - Twelve of twelve authored dispositions matched. Candidate precision and recall are 1.0 on these twelve cases; citation sets, ordered tool-use requirements and tool budgets passed.
 - The deterministic reference also gets twelve of twelve. There is no demonstrated detection improvement from the model on this benchmark.
 - The notebook executed in a fresh Python kernel in replay mode, including the source-mutation exercise. Saved trace versions and local evidence must match before replay.
-- Fourteen offline tests cover OCSF projection, identity ambiguity and absence, temporal order, citations, assessment scope, ingestion integrity, cache behavior and scorecard logic. The test substitute cannot pass the live trace check.
+- Sixteen offline tests cover OCSF projection, identity ambiguity and absence, temporal order, citations, assessment scope, ingestion integrity, cache behavior, scorecard logic, API pagination and cross-origin credential protection. The API connector tests use an injected fake transport; no live tenant is claimed. The model test substitute cannot pass the live trace check.
 
 The 86,288 total tokens above describe only the two retained successful runs. Earlier development attempts, including a failed investigation, incurred additional usage. These are API-reported token totals, not dollar costs or a throughput benchmark.
 
@@ -40,9 +40,9 @@ The executed notebook produced the investigation board, source-volume figure, pi
 
 Public packaging uses an explicit file allowlist and a credential-pattern scan. Generated source data, private environment files and runtime history are excluded. The archive includes code that regenerates fictional inputs, saved real model traces and executed notebook outputs.
 
-The archive was extracted into an empty temporary directory and tested with OPENAI_API_KEY removed from the subprocess environment: fourteen tests, saved-output evaluation and fresh-kernel notebook execution all passed. This checks clean files using the existing pinned Python environment; it is not an independent dependency installation or a Docker run.
+The original single-lab archive was extracted into an empty temporary directory and tested with OPENAI_API_KEY removed from the subprocess environment: fourteen tests, saved-output evaluation and fresh-kernel notebook execution all passed. After the multi-lab repository restructure and connector addition, the current sixteen-test suite, saved-output evaluation and fresh-kernel notebook execution passed from the new lab directory. This uses the existing pinned Python environment.
 
-Docker verification passed on 2026-09-06 after enabling the Windows WSL 2 prerequisites and rebooting. Docker Desktop 4.89.0 / Engine 29.7.2 built the image from python:3.12-slim with a fresh dependency installation. Fourteen tests and full fresh-kernel notebook execution passed in separate disposable containers using --network none, no API credentials and no host mounts. Image ID: sha256:59817beaa2a8fce9f6158f0e3f9abe3dadc134d1b8aa99995c9ee6f3a717084a. This verifies offline container replay, not live model calls, Compose browser startup or repository CI execution.
+Docker verification passed on 2026-09-06 after enabling the Windows WSL 2 prerequisites and rebooting. Docker Desktop 4.89.0 / Engine 29.7.2 built the image from python:3.12-slim with a fresh dependency installation. The then-current fourteen tests and full fresh-kernel notebook execution passed in separate disposable containers using --network none, no API credentials and no host mounts. Image ID: sha256:59817beaa2a8fce9f6158f0e3f9abe3dadc134d1b8aa99995c9ee6f3a717084a. GitHub CI independently rebuilds the current code and executes the current suite. This local record does not claim a live model call, live Okta collection or Compose browser test.
 
 ## Deliberate boundaries
 
