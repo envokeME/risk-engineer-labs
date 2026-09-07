@@ -1,0 +1,21 @@
+{
+  "description": "Author-labeled synthetic cases for testing the lab harness; not independent real-world validation.",
+  "batches": {
+    "1": {
+      "leaver-access:P0001:support": "candidate-submitted",
+      "leaver-access:P0002:support": "ambiguous",
+      "leaver-access:P0003:support": "contradicted",
+      "leaver-access:P0004:support": "insufficient-evidence",
+      "leaver-access:P0005:finance": "candidate-submitted",
+      "leaver-access:P0006:engineering": "candidate-submitted"
+    },
+    "2": {
+      "leaver-access:P0001:support": "contradicted",
+      "leaver-access:P0002:support": "insufficient-evidence",
+      "leaver-access:P0003:support": "insufficient-evidence",
+      "leaver-access:P0004:support": "insufficient-evidence",
+      "leaver-access:P0005:finance": "insufficient-evidence",
+      "leaver-access:P0006:engineering": "candidate-submitted"
+    }
+  }
+}

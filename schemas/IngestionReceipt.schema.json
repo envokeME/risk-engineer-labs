@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IngestionReceipt",
+  "description": "Records what arrived, where it was landed, and whether the transport envelope was complete before semantic mapping.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "registry_version", "run_id", "source_kind", "counts", "sources", "ready_for"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "registry_version": {"type": "string"},
+    "run_id": {"type": "string", "pattern": "^[a-f0-9]{16}$"},
+    "source_kind": {"type": "string"},
+    "counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source_id", "label", "role", "adapter", "format", "source_path", "landing_path", "sha256", "bytes", "record_count", "records_with_id", "records_missing_id", "duplicate_ids", "batch_counts", "transport_status"],
+        "properties": {
+          "source_id": {"type": "string"}, "label": {"type": "string"}, "role": {"type": "string"},
+          "adapter": {"type": "string"}, "format": {"enum": ["json", "jsonl"]},
+          "source_path": {"type": "string"}, "landing_path": {"type": "string"},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}, "bytes": {"type": "integer", "minimum": 1},
+          "record_count": {"type": "integer", "minimum": 1}, "records_with_id": {"type": "integer", "minimum": 0},
+          "records_missing_id": {"type": "integer", "minimum": 0}, "duplicate_ids": {"type": "integer", "minimum": 0},
+          "batch_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 1}},
+          "transport_status": {"enum": ["accepted", "accepted-with-envelope-warnings"]}
+        }
+      }
+    },
+    "ready_for": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+  }
+}

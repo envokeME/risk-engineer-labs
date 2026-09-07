@@ -1,0 +1,9 @@
+jupyterlab==4.6.3
+nbclient==0.11.0
+nbformat==5.11.1
+jsonschema[format]==4.26.0
+matplotlib==3.11.1
+langgraph==1.0.9
+duckdb==1.5.5
+pyarrow==25.0.1
+ocsf-json-schema==1.2.0

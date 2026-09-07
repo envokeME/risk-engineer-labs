@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RiskEvidenceBundle",
+  "description": "Experimental risk.engineer identification input contract. HR is optional evidence; OCSF events retain their own schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "bundle_id", "collection_batch", "scope", "evidence", "derived_conditions", "business_context", "limitations"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "bundle_id": {"type": "string", "minLength": 1},
+    "collection_batch": {"type": "integer", "minimum": 1},
+    "scope": {
+      "type": "object", "additionalProperties": false,
+      "required": ["identity_ids", "service_ids", "start_ms", "end_ms"],
+      "properties": {
+        "identity_ids": {"type": "array", "items": {"type": "string"}},
+        "service_ids": {"type": "array", "items": {"type": "string"}},
+        "start_ms": {"type": "integer"}, "end_ms": {"type": "integer"}
+      }
+    },
+    "evidence": {
+      "type": "array", "minItems": 1,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["evidence_id", "source", "observed_fact"],
+        "properties": {
+          "evidence_id": {"type": "string", "minLength": 1}, "source": {"type": "string"},
+          "observed_fact": {"type": "string", "minLength": 1}, "ocsf_class": {"type": "string"}
+        }
+      }
+    },
+    "derived_conditions": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["description", "rule_id", "evidence_ids"],
+        "properties": {
+          "description": {"type": "string"}, "rule_id": {"type": "string"},
+          "evidence_ids": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+        }
+      }
+    },
+    "business_context": {"$ref": "#/$defs/context"},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "context": {
+      "type": "object", "additionalProperties": false,
+      "required": ["objective_id", "objective", "service", "owner", "data_classification", "target_profile_outcomes", "origin"],
+      "properties": {
+        "objective_id": {"type": "string"}, "objective": {"type": "string"}, "service": {"type": "string"},
+        "owner": {"type": "string"}, "data_classification": {"type": "string"},
+        "target_profile_outcomes": {"type": "array", "items": {"type": "string"}}, "origin": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,1233 @@
+{
+  "version": "investigation-harness-3",
+  "batch": 2,
+  "fingerprint": "432882ff0994446e093babb9371f996992b5bb0b130a1e2ffeb40eaadca7f59d",
+  "stages": [
+    "collect",
+    "register",
+    "land",
+    "receipt",
+    "validate",
+    "normalize:OCSF",
+    "contextualize",
+    "cluster",
+    "agent-investigation",
+    "validate",
+    "persist",
+    "END"
+  ],
+  "pipeline": {
+    "batch": 2,
+    "manifest": {
+      "mapping_version": "4",
+      "ingestion_run_id": "d65020b6c5439dd9",
+      "ingestion_registry_version": "1.0.0",
+      "ingestion_ready_for": [
+        "leaver-access-v1"
+      ],
+      "ocsf_version": "1.8.0",
+      "raw_counts": {
+        "okta": 8000,
+        "zscaler": 40000,
+        "hr": 1000,
+        "business_services": 200
+      },
+      "normalized_events": 47998,
+      "quarantined": 2,
+      "class_counts": {
+        "authentication": 7997,
+        "account_change": 2,
+        "http_activity": 39999
+      },
+      "validation": "Every emitted event passed the packaged OCSF 1.8.0 JSON Schema for its class.",
+      "provenance": {
+        "raw": "deterministic mock data shaped like documented vendor exports",
+        "normalized": "OCSF projection plus query index columns",
+        "context": "fictional HR and business-service enrichment"
+      }
+    },
+    "stage_counts": {
+      "raw_records": 49200,
+      "normalized_events": 47998,
+      "quarantined": 2,
+      "relevant_terminated_user_events": 3,
+      "investigation_clusters": 6,
+      "supported_evidence_bundles": 1
+    },
+    "findings": [
+      {
+        "scenario_id": "leaver-access:P0001:support",
+        "person_id": "P0001",
+        "service_id": "support",
+        "state": "not-supported",
+        "reason": "A successful disable event is present with no later qualifying activity in this window; this does not establish global revocation.",
+        "evidence_ids": [
+          "HR-0001",
+          "OKTA-P1-DISABLE"
+        ],
+        "collection_batch": 2,
+        "disposition": "contradicted"
+      },
+      {
+        "scenario_id": "leaver-access:P0002:support",
+        "person_id": "P0002",
+        "service_id": "support",
+        "state": "unknown",
+        "reason": "The collection lacks resolved identity evidence or a complete activity pair after termination and any disable.",
+        "evidence_ids": [
+          "HR-0002"
+        ],
+        "collection_batch": 2,
+        "disposition": "insufficient-evidence"
+      },
+      {
+        "scenario_id": "leaver-access:P0003:support",
+        "person_id": "P0003",
+        "service_id": "support",
+        "state": "unknown",
+        "reason": "The collection lacks resolved identity evidence or a complete activity pair after termination and any disable.",
+        "evidence_ids": [
+          "HR-0003"
+        ],
+        "collection_batch": 2,
+        "disposition": "insufficient-evidence"
+      },
+      {
+        "scenario_id": "leaver-access:P0004:support",
+        "person_id": "P0004",
+        "service_id": "support",
+        "state": "unknown",
+        "reason": "The collection lacks resolved identity evidence or a complete activity pair after termination and any disable.",
+        "evidence_ids": [
+          "HR-0004"
+        ],
+        "collection_batch": 2,
+        "disposition": "insufficient-evidence"
+      },
+      {
+        "scenario_id": "leaver-access:P0005:finance",
+        "person_id": "P0005",
+        "service_id": "finance",
+        "state": "unknown",
+        "reason": "The collection lacks resolved identity evidence or a complete activity pair after termination and any disable.",
+        "evidence_ids": [
+          "HR-0005"
+        ],
+        "collection_batch": 2,
+        "disposition": "insufficient-evidence"
+      },
+      {
+        "scenario_id": "leaver-access:P0006:engineering",
+        "person_id": "P0006",
+        "service_id": "engineering",
+        "state": "supported",
+        "reason": "Successful authentication and allowed web activity follow termination and any observed disable event.",
+        "evidence_ids": [
+          "HR-0006",
+          "OKTA-P6-B2",
+          "ZIA-P6-B2"
+        ],
+        "collection_batch": 2,
+        "disposition": "candidate-submitted"
+      }
+    ],
+    "clusters": [
+      {
+        "cluster_id": "leaver-access:P0001:support",
+        "scenario_id": "leaver-access:P0001:support",
+        "person_id": "P0001",
+        "service_id": "support",
+        "collection_batch": 2,
+        "termination_time": "2026-09-01T08:00:00Z",
+        "identity_uids": [
+          "00u0001"
+        ],
+        "expected_identity_uid": "00u0001",
+        "termination_ms": 1788249600000,
+        "authentication_times": [],
+        "web_times": [],
+        "disable_times": [
+          1788267660000
+        ],
+        "authentication_events": 0,
+        "web_events": 0,
+        "disable_events": 1,
+        "first_activity_ms": 1788267660000,
+        "last_activity_ms": 1788267660000,
+        "service_name": "Customer support platform",
+        "objective_id": "OBJ-001",
+        "business_objective": "customer-information",
+        "data_classification": "customer-confidential",
+        "service_owner": "Business owner 000",
+        "profile_outcome": "PR.AA-05",
+        "context_origin": "fictional HR and business-service enrichment",
+        "evidence_ids": [
+          "HR-0001",
+          "OKTA-P1-DISABLE"
+        ],
+        "evidence_records": [
+          {
+            "evidence_id": "HR-0001",
+            "source": "hr",
+            "observed_fact": "P0001 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0001."
+          },
+          {
+            "evidence_id": "OKTA-P1-DISABLE",
+            "source": "Okta",
+            "ocsf_class": "Account Change",
+            "observed_fact": "Okta recorded Disable for user0001@corp.example.test at 1788267660000 with status_id=1. Observed identity_uid=00u0001."
+          }
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0002:support",
+        "scenario_id": "leaver-access:P0002:support",
+        "person_id": "P0002",
+        "service_id": "support",
+        "collection_batch": 2,
+        "termination_time": "2026-09-01T08:00:00Z",
+        "identity_uids": [],
+        "expected_identity_uid": "00u0002",
+        "termination_ms": 1788249600000,
+        "authentication_times": [],
+        "web_times": [],
+        "disable_times": [],
+        "authentication_events": 0,
+        "web_events": 0,
+        "disable_events": 0,
+        "first_activity_ms": 1788249600000,
+        "last_activity_ms": 1788249600000,
+        "service_name": "Customer support platform",
+        "objective_id": "OBJ-001",
+        "business_objective": "customer-information",
+        "data_classification": "customer-confidential",
+        "service_owner": "Business owner 000",
+        "profile_outcome": "PR.AA-05",
+        "context_origin": "fictional HR and business-service enrichment",
+        "evidence_ids": [
+          "HR-0002"
+        ],
+        "evidence_records": [
+          {
+            "evidence_id": "HR-0002",
+            "source": "hr",
+            "observed_fact": "P0002 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0002."
+          }
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0003:support",
+        "scenario_id": "leaver-access:P0003:support",
+        "person_id": "P0003",
+        "service_id": "support",
+        "collection_batch": 2,
+        "termination_time": "2026-09-01T08:00:00Z",
+        "identity_uids": [],
+        "expected_identity_uid": "00u0003",
+        "termination_ms": 1788249600000,
+        "authentication_times": [],
+        "web_times": [],
+        "disable_times": [],
+        "authentication_events": 0,
+        "web_events": 0,
+        "disable_events": 0,
+        "first_activity_ms": 1788249600000,
+        "last_activity_ms": 1788249600000,
+        "service_name": "Customer support platform",
+        "objective_id": "OBJ-001",
+        "business_objective": "customer-information",
+        "data_classification": "customer-confidential",
+        "service_owner": "Business owner 000",
+        "profile_outcome": "PR.AA-05",
+        "context_origin": "fictional HR and business-service enrichment",
+        "evidence_ids": [
+          "HR-0003"
+        ],
+        "evidence_records": [
+          {
+            "evidence_id": "HR-0003",
+            "source": "hr",
+            "observed_fact": "P0003 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0003."
+          }
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0004:support",
+        "scenario_id": "leaver-access:P0004:support",
+        "person_id": "P0004",
+        "service_id": "support",
+        "collection_batch": 2,
+        "termination_time": "2026-09-01T08:00:00Z",
+        "identity_uids": [],
+        "expected_identity_uid": "00u0004",
+        "termination_ms": 1788249600000,
+        "authentication_times": [],
+        "web_times": [],
+        "disable_times": [],
+        "authentication_events": 0,
+        "web_events": 0,
+        "disable_events": 0,
+        "first_activity_ms": 1788249600000,
+        "last_activity_ms": 1788249600000,
+        "service_name": "Customer support platform",
+        "objective_id": "OBJ-001",
+        "business_objective": "customer-information",
+        "data_classification": "customer-confidential",
+        "service_owner": "Business owner 000",
+        "profile_outcome": "PR.AA-05",
+        "context_origin": "fictional HR and business-service enrichment",
+        "evidence_ids": [
+          "HR-0004"
+        ],
+        "evidence_records": [
+          {
+            "evidence_id": "HR-0004",
+            "source": "hr",
+            "observed_fact": "P0004 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0004."
+          }
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0005:finance",
+        "scenario_id": "leaver-access:P0005:finance",
+        "person_id": "P0005",
+        "service_id": "finance",
+        "collection_batch": 2,
+        "termination_time": "2026-09-01T08:00:00Z",
+        "identity_uids": [],
+        "expected_identity_uid": "00u0005",
+        "termination_ms": 1788249600000,
+        "authentication_times": [],
+        "web_times": [],
+        "disable_times": [],
+        "authentication_events": 0,
+        "web_events": 0,
+        "disable_events": 0,
+        "first_activity_ms": 1788249600000,
+        "last_activity_ms": 1788249600000,
+        "service_name": "Financial reporting workspace",
+        "objective_id": "OBJ-002",
+        "business_objective": "financial-reporting",
+        "data_classification": "internal",
+        "service_owner": "Business owner 001",
+        "profile_outcome": "PR.AA-05",
+        "context_origin": "fictional HR and business-service enrichment",
+        "evidence_ids": [
+          "HR-0005"
+        ],
+        "evidence_records": [
+          {
+            "evidence_id": "HR-0005",
+            "source": "hr",
+            "observed_fact": "P0005 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0005."
+          }
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0006:engineering",
+        "scenario_id": "leaver-access:P0006:engineering",
+        "person_id": "P0006",
+        "service_id": "engineering",
+        "collection_batch": 2,
+        "termination_time": "2026-09-01T08:00:00Z",
+        "identity_uids": [
+          "00u0006"
+        ],
+        "expected_identity_uid": "00u0006",
+        "termination_ms": 1788249600000,
+        "authentication_times": [
+          1788268200000
+        ],
+        "web_times": [
+          1788268260000
+        ],
+        "disable_times": [],
+        "authentication_events": 1,
+        "web_events": 1,
+        "disable_events": 0,
+        "first_activity_ms": 1788268200000,
+        "last_activity_ms": 1788268260000,
+        "service_name": "Engineering delivery platform",
+        "objective_id": "OBJ-003",
+        "business_objective": "software-delivery",
+        "data_classification": "internal",
+        "service_owner": "Business owner 002",
+        "profile_outcome": "PR.AA-05",
+        "context_origin": "fictional HR and business-service enrichment",
+        "evidence_ids": [
+          "HR-0006",
+          "OKTA-P6-B2",
+          "ZIA-P6-B2"
+        ],
+        "evidence_records": [
+          {
+            "evidence_id": "HR-0006",
+            "source": "hr",
+            "observed_fact": "P0006 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0006."
+          },
+          {
+            "evidence_id": "OKTA-P6-B2",
+            "source": "Okta",
+            "ocsf_class": "Authentication",
+            "observed_fact": "Okta recorded Logon for user0006@corp.example.test to engineering at 1788268200000 with status_id=1. Observed identity_uid=00u0006."
+          },
+          {
+            "evidence_id": "ZIA-P6-B2",
+            "source": "Zscaler",
+            "ocsf_class": "HTTP Activity",
+            "observed_fact": "Zscaler recorded Get by user0006@corp.example.test to engineering.apps.example.test at 1788268260000 with source_action=allowed."
+          }
+        ]
+      }
+    ],
+    "bundles": [
+      {
+        "cluster_id": "leaver-access:P0006:engineering",
+        "scenario_id": "leaver-access:P0006:engineering",
+        "person_id": "P0006",
+        "service_id": "engineering",
+        "collection_batch": 2,
+        "termination_time": "2026-09-01T08:00:00Z",
+        "identity_uids": [
+          "00u0006"
+        ],
+        "expected_identity_uid": "00u0006",
+        "termination_ms": 1788249600000,
+        "authentication_times": [
+          1788268200000
+        ],
+        "web_times": [
+          1788268260000
+        ],
+        "disable_times": [],
+        "authentication_events": 1,
+        "web_events": 1,
+        "disable_events": 0,
+        "first_activity_ms": 1788268200000,
+        "last_activity_ms": 1788268260000,
+        "service_name": "Engineering delivery platform",
+        "objective_id": "OBJ-003",
+        "business_objective": "software-delivery",
+        "data_classification": "internal",
+        "service_owner": "Business owner 002",
+        "profile_outcome": "PR.AA-05",
+        "context_origin": "fictional HR and business-service enrichment",
+        "evidence_ids": [
+          "HR-0006",
+          "OKTA-P6-B2",
+          "ZIA-P6-B2"
+        ],
+        "evidence_records": [
+          {
+            "evidence_id": "HR-0006",
+            "source": "hr",
+            "observed_fact": "P0006 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0006."
+          },
+          {
+            "evidence_id": "OKTA-P6-B2",
+            "source": "Okta",
+            "ocsf_class": "Authentication",
+            "observed_fact": "Okta recorded Logon for user0006@corp.example.test to engineering at 1788268200000 with status_id=1. Observed identity_uid=00u0006."
+          },
+          {
+            "evidence_id": "ZIA-P6-B2",
+            "source": "Zscaler",
+            "ocsf_class": "HTTP Activity",
+            "observed_fact": "Zscaler recorded Get by user0006@corp.example.test to engineering.apps.example.test at 1788268260000 with source_action=allowed."
+          }
+        ],
+        "state": "supported",
+        "reason": "Successful authentication and allowed web activity follow termination and any observed disable event.",
+        "disposition": "candidate-submitted",
+        "identity_uid": "00u0006"
+      }
+    ]
+  },
+  "reasoning": {
+    "candidates": [
+      {
+        "cluster_id": "leaver-access:P0006:engineering",
+        "observed_condition": "Terminated P0006 observed with exactly one identity (00u0006), successful authentication and allowed web activity to engineering service after termination and after disable event (if any).",
+        "statement": "If access by terminated worker P0006 acts through observed successful authentication and allowed web activity with identity 00u0006, then potential unauthorized access to internal engineering delivery platform may occur, affecting software-delivery objective.",
+        "threat_event": "Unauthorized access by terminated employee to internal engineering delivery platform.",
+        "potential_consequence": "Potential unauthorized access to sensitive engineering resources affecting software delivery objectives.",
+        "assumptions": [
+          "Access by the observed identity is controlled and validatable.",
+          "Observed web activity indicates active use of the service by the terminated employee.",
+          "No disable event was observed or was before the access events."
+        ],
+        "open_questions": [
+          "Was the observed activity authorized or a policy violation?",
+          "Was the terminated employee's access revoked properly?",
+          "Are there any logs indicating data exfiltration or misuse?"
+        ],
+        "evidence_ids": [
+          "HR-0006",
+          "OKTA-P6-B2",
+          "ZIA-P6-B2"
+        ],
+        "scenario_id": "leaver-access:P0006:engineering",
+        "person_id": "P0006",
+        "service": "Engineering delivery platform",
+        "objective": "software-delivery",
+        "profile_outcome": "PR.AA-05",
+        "condition_status": "candidate",
+        "context_origin": "fictional HR and business-service enrichment",
+        "review_status": "candidate-human-review-required",
+        "risk_scenario": {
+          "schema_version": "1.0.0",
+          "scenario_id": "leaver-access:P0006:engineering",
+          "bundle_id": "leaver-access:P0006:engineering",
+          "collection_batch": 2,
+          "observed_condition": "Terminated P0006 observed with exactly one identity (00u0006), successful authentication and allowed web activity to engineering service after termination and after disable event (if any).",
+          "threat_event": "Unauthorized access by terminated employee to internal engineering delivery platform.",
+          "potential_consequence": "Potential unauthorized access to sensitive engineering resources affecting software delivery objectives.",
+          "risk_statement": "If access by terminated worker P0006 acts through observed successful authentication and allowed web activity with identity 00u0006, then potential unauthorized access to internal engineering delivery platform may occur, affecting software-delivery objective.",
+          "business_context": {
+            "objective_id": "OBJ-003",
+            "objective": "software-delivery",
+            "service": "Engineering delivery platform",
+            "owner": "Business owner 002",
+            "data_classification": "internal",
+            "target_profile_outcomes": [
+              "PR.AA-05"
+            ],
+            "origin": "fictional HR and business-service enrichment"
+          },
+          "evidence_ids": [
+            "HR-0006",
+            "OKTA-P6-B2",
+            "ZIA-P6-B2"
+          ],
+          "assumptions": [
+            "Access by the observed identity is controlled and validatable.",
+            "Observed web activity indicates active use of the service by the terminated employee.",
+            "No disable event was observed or was before the access events."
+          ],
+          "open_questions": [
+            "Was the observed activity authorized or a policy violation?",
+            "Was the terminated employee's access revoked properly?",
+            "Are there any logs indicating data exfiltration or misuse?"
+          ],
+          "review_status": "candidate-human-review-required",
+          "origin": "model-generated"
+        }
+      }
+    ],
+    "dispositions": [
+      {
+        "cluster_id": "leaver-access:P0001:support",
+        "disposition": "contradicted",
+        "rationale": "Identity disable observed with no subsequent qualifying authentication or web activity posts termination within this window.",
+        "evidence_ids": [
+          "HR-0001",
+          "OKTA-P1-DISABLE"
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0002:support",
+        "disposition": "insufficient-evidence",
+        "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+        "evidence_ids": [
+          "HR-0002"
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0003:support",
+        "disposition": "insufficient-evidence",
+        "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+        "evidence_ids": [
+          "HR-0003"
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0004:support",
+        "disposition": "insufficient-evidence",
+        "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+        "evidence_ids": [
+          "HR-0004"
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0005:finance",
+        "disposition": "insufficient-evidence",
+        "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+        "evidence_ids": [
+          "HR-0005"
+        ]
+      },
+      {
+        "cluster_id": "leaver-access:P0006:engineering",
+        "disposition": "candidate-submitted",
+        "rationale": "Candidate risk statement submitted for terminated employee P0006 with observed post-termination authentication and allowed web activity.",
+        "evidence_ids": [
+          "HR-0006",
+          "OKTA-P6-B2",
+          "ZIA-P6-B2"
+        ]
+      }
+    ],
+    "trace": [
+      {
+        "turn": 1,
+        "tool": "inspect_pipeline",
+        "arguments": {},
+        "accepted": true,
+        "result": {
+          "batch": 2,
+          "stage_counts": {
+            "raw_records": 49200,
+            "normalized_events": 47998,
+            "quarantined": 2,
+            "relevant_terminated_user_events": 3,
+            "investigation_clusters": 6
+          },
+          "sources": {
+            "okta": 8000,
+            "zscaler": 40000,
+            "hr": 1000,
+            "business_services": 200
+          },
+          "investigation_lead": "terminated-worker clusters joined to identity, network, and business-service context",
+          "boundary": "Identification only; no scoring, prioritization, treatment, or acceptance."
+        }
+      },
+      {
+        "turn": 2,
+        "tool": "list_evidence_clusters",
+        "arguments": {},
+        "accepted": true,
+        "result": [
+          {
+            "cluster_id": "leaver-access:P0001:support",
+            "person_id": "P0001",
+            "service_id": "support",
+            "evidence_record_count": 2
+          },
+          {
+            "cluster_id": "leaver-access:P0002:support",
+            "person_id": "P0002",
+            "service_id": "support",
+            "evidence_record_count": 1
+          },
+          {
+            "cluster_id": "leaver-access:P0003:support",
+            "person_id": "P0003",
+            "service_id": "support",
+            "evidence_record_count": 1
+          },
+          {
+            "cluster_id": "leaver-access:P0004:support",
+            "person_id": "P0004",
+            "service_id": "support",
+            "evidence_record_count": 1
+          },
+          {
+            "cluster_id": "leaver-access:P0005:finance",
+            "person_id": "P0005",
+            "service_id": "finance",
+            "evidence_record_count": 1
+          },
+          {
+            "cluster_id": "leaver-access:P0006:engineering",
+            "person_id": "P0006",
+            "service_id": "engineering",
+            "evidence_record_count": 3
+          }
+        ]
+      },
+      {
+        "turn": 3,
+        "tool": "inspect_entity_timeline",
+        "arguments": {
+          "cluster_id": "leaver-access:P0001:support"
+        },
+        "accepted": true,
+        "result": {
+          "schema_version": "1.0.0",
+          "bundle_id": "leaver-access:P0001:support",
+          "collection_batch": 2,
+          "scope": {
+            "identity_ids": [
+              "00u0001"
+            ],
+            "service_ids": [
+              "support"
+            ],
+            "start_ms": 1788267660000,
+            "end_ms": 1788267660000
+          },
+          "evidence": [
+            {
+              "evidence_id": "HR-0001",
+              "source": "hr",
+              "observed_fact": "P0001 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0001."
+            },
+            {
+              "evidence_id": "OKTA-P1-DISABLE",
+              "source": "Okta",
+              "ocsf_class": "Account Change",
+              "observed_fact": "Okta recorded Disable for user0001@corp.example.test at 1788267660000 with status_id=1. Observed identity_uid=00u0001."
+            }
+          ],
+          "derived_conditions": [],
+          "limitations": [
+            "Activity does not establish authorization, malicious intent, or business loss.",
+            "Identity IDs are observed in the current window; an empty list means unresolved, even when HR supplies an expected ID.",
+            "Web activity is joined by login and service; this is not proof of a shared authenticated session.",
+            "Source availability and event absence are not proof of complete collection or globally revoked access.",
+            "The cluster is a bounded investigation lead, not a risk determination."
+          ]
+        }
+      },
+      {
+        "turn": 3,
+        "tool": "inspect_entity_timeline",
+        "arguments": {
+          "cluster_id": "leaver-access:P0002:support"
+        },
+        "accepted": true,
+        "result": {
+          "schema_version": "1.0.0",
+          "bundle_id": "leaver-access:P0002:support",
+          "collection_batch": 2,
+          "scope": {
+            "identity_ids": [],
+            "service_ids": [
+              "support"
+            ],
+            "start_ms": 1788249600000,
+            "end_ms": 1788249600000
+          },
+          "evidence": [
+            {
+              "evidence_id": "HR-0002",
+              "source": "hr",
+              "observed_fact": "P0002 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0002."
+            }
+          ],
+          "derived_conditions": [],
+          "limitations": [
+            "Activity does not establish authorization, malicious intent, or business loss.",
+            "Identity IDs are observed in the current window; an empty list means unresolved, even when HR supplies an expected ID.",
+            "Web activity is joined by login and service; this is not proof of a shared authenticated session.",
+            "Source availability and event absence are not proof of complete collection or globally revoked access.",
+            "The cluster is a bounded investigation lead, not a risk determination."
+          ]
+        }
+      },
+      {
+        "turn": 3,
+        "tool": "inspect_entity_timeline",
+        "arguments": {
+          "cluster_id": "leaver-access:P0003:support"
+        },
+        "accepted": true,
+        "result": {
+          "schema_version": "1.0.0",
+          "bundle_id": "leaver-access:P0003:support",
+          "collection_batch": 2,
+          "scope": {
+            "identity_ids": [],
+            "service_ids": [
+              "support"
+            ],
+            "start_ms": 1788249600000,
+            "end_ms": 1788249600000
+          },
+          "evidence": [
+            {
+              "evidence_id": "HR-0003",
+              "source": "hr",
+              "observed_fact": "P0003 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0003."
+            }
+          ],
+          "derived_conditions": [],
+          "limitations": [
+            "Activity does not establish authorization, malicious intent, or business loss.",
+            "Identity IDs are observed in the current window; an empty list means unresolved, even when HR supplies an expected ID.",
+            "Web activity is joined by login and service; this is not proof of a shared authenticated session.",
+            "Source availability and event absence are not proof of complete collection or globally revoked access.",
+            "The cluster is a bounded investigation lead, not a risk determination."
+          ]
+        }
+      },
+      {
+        "turn": 3,
+        "tool": "inspect_entity_timeline",
+        "arguments": {
+          "cluster_id": "leaver-access:P0004:support"
+        },
+        "accepted": true,
+        "result": {
+          "schema_version": "1.0.0",
+          "bundle_id": "leaver-access:P0004:support",
+          "collection_batch": 2,
+          "scope": {
+            "identity_ids": [],
+            "service_ids": [
+              "support"
+            ],
+            "start_ms": 1788249600000,
+            "end_ms": 1788249600000
+          },
+          "evidence": [
+            {
+              "evidence_id": "HR-0004",
+              "source": "hr",
+              "observed_fact": "P0004 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0004."
+            }
+          ],
+          "derived_conditions": [],
+          "limitations": [
+            "Activity does not establish authorization, malicious intent, or business loss.",
+            "Identity IDs are observed in the current window; an empty list means unresolved, even when HR supplies an expected ID.",
+            "Web activity is joined by login and service; this is not proof of a shared authenticated session.",
+            "Source availability and event absence are not proof of complete collection or globally revoked access.",
+            "The cluster is a bounded investigation lead, not a risk determination."
+          ]
+        }
+      },
+      {
+        "turn": 3,
+        "tool": "inspect_entity_timeline",
+        "arguments": {
+          "cluster_id": "leaver-access:P0005:finance"
+        },
+        "accepted": true,
+        "result": {
+          "schema_version": "1.0.0",
+          "bundle_id": "leaver-access:P0005:finance",
+          "collection_batch": 2,
+          "scope": {
+            "identity_ids": [],
+            "service_ids": [
+              "finance"
+            ],
+            "start_ms": 1788249600000,
+            "end_ms": 1788249600000
+          },
+          "evidence": [
+            {
+              "evidence_id": "HR-0005",
+              "source": "hr",
+              "observed_fact": "P0005 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0005."
+            }
+          ],
+          "derived_conditions": [],
+          "limitations": [
+            "Activity does not establish authorization, malicious intent, or business loss.",
+            "Identity IDs are observed in the current window; an empty list means unresolved, even when HR supplies an expected ID.",
+            "Web activity is joined by login and service; this is not proof of a shared authenticated session.",
+            "Source availability and event absence are not proof of complete collection or globally revoked access.",
+            "The cluster is a bounded investigation lead, not a risk determination."
+          ]
+        }
+      },
+      {
+        "turn": 3,
+        "tool": "inspect_entity_timeline",
+        "arguments": {
+          "cluster_id": "leaver-access:P0006:engineering"
+        },
+        "accepted": true,
+        "result": {
+          "schema_version": "1.0.0",
+          "bundle_id": "leaver-access:P0006:engineering",
+          "collection_batch": 2,
+          "scope": {
+            "identity_ids": [
+              "00u0006"
+            ],
+            "service_ids": [
+              "engineering"
+            ],
+            "start_ms": 1788268200000,
+            "end_ms": 1788268260000
+          },
+          "evidence": [
+            {
+              "evidence_id": "HR-0006",
+              "source": "hr",
+              "observed_fact": "P0006 has employment_status=terminated at 2026-09-01T08:00:00Z; HR expects identity_uid=00u0006."
+            },
+            {
+              "evidence_id": "OKTA-P6-B2",
+              "source": "Okta",
+              "ocsf_class": "Authentication",
+              "observed_fact": "Okta recorded Logon for user0006@corp.example.test to engineering at 1788268200000 with status_id=1. Observed identity_uid=00u0006."
+            },
+            {
+              "evidence_id": "ZIA-P6-B2",
+              "source": "Zscaler",
+              "ocsf_class": "HTTP Activity",
+              "observed_fact": "Zscaler recorded Get by user0006@corp.example.test to engineering.apps.example.test at 1788268260000 with source_action=allowed."
+            }
+          ],
+          "derived_conditions": [],
+          "limitations": [
+            "Activity does not establish authorization, malicious intent, or business loss.",
+            "Identity IDs are observed in the current window; an empty list means unresolved, even when HR supplies an expected ID.",
+            "Web activity is joined by login and service; this is not proof of a shared authenticated session.",
+            "Source availability and event absence are not proof of complete collection or globally revoked access.",
+            "The cluster is a bounded investigation lead, not a risk determination."
+          ]
+        }
+      },
+      {
+        "turn": 4,
+        "tool": "lookup_business_context",
+        "arguments": {
+          "cluster_id": "leaver-access:P0001:support"
+        },
+        "accepted": true,
+        "result": {
+          "objective_id": "OBJ-001",
+          "objective": "customer-information",
+          "service": "Customer support platform",
+          "owner": "Business owner 000",
+          "data_classification": "customer-confidential",
+          "target_profile_outcomes": [
+            "PR.AA-05"
+          ],
+          "origin": "fictional HR and business-service enrichment"
+        }
+      },
+      {
+        "turn": 4,
+        "tool": "lookup_business_context",
+        "arguments": {
+          "cluster_id": "leaver-access:P0002:support"
+        },
+        "accepted": true,
+        "result": {
+          "objective_id": "OBJ-001",
+          "objective": "customer-information",
+          "service": "Customer support platform",
+          "owner": "Business owner 000",
+          "data_classification": "customer-confidential",
+          "target_profile_outcomes": [
+            "PR.AA-05"
+          ],
+          "origin": "fictional HR and business-service enrichment"
+        }
+      },
+      {
+        "turn": 4,
+        "tool": "lookup_business_context",
+        "arguments": {
+          "cluster_id": "leaver-access:P0003:support"
+        },
+        "accepted": true,
+        "result": {
+          "objective_id": "OBJ-001",
+          "objective": "customer-information",
+          "service": "Customer support platform",
+          "owner": "Business owner 000",
+          "data_classification": "customer-confidential",
+          "target_profile_outcomes": [
+            "PR.AA-05"
+          ],
+          "origin": "fictional HR and business-service enrichment"
+        }
+      },
+      {
+        "turn": 4,
+        "tool": "lookup_business_context",
+        "arguments": {
+          "cluster_id": "leaver-access:P0004:support"
+        },
+        "accepted": true,
+        "result": {
+          "objective_id": "OBJ-001",
+          "objective": "customer-information",
+          "service": "Customer support platform",
+          "owner": "Business owner 000",
+          "data_classification": "customer-confidential",
+          "target_profile_outcomes": [
+            "PR.AA-05"
+          ],
+          "origin": "fictional HR and business-service enrichment"
+        }
+      },
+      {
+        "turn": 4,
+        "tool": "lookup_business_context",
+        "arguments": {
+          "cluster_id": "leaver-access:P0005:finance"
+        },
+        "accepted": true,
+        "result": {
+          "objective_id": "OBJ-002",
+          "objective": "financial-reporting",
+          "service": "Financial reporting workspace",
+          "owner": "Business owner 001",
+          "data_classification": "internal",
+          "target_profile_outcomes": [
+            "PR.AA-05"
+          ],
+          "origin": "fictional HR and business-service enrichment"
+        }
+      },
+      {
+        "turn": 4,
+        "tool": "lookup_business_context",
+        "arguments": {
+          "cluster_id": "leaver-access:P0006:engineering"
+        },
+        "accepted": true,
+        "result": {
+          "objective_id": "OBJ-003",
+          "objective": "software-delivery",
+          "service": "Engineering delivery platform",
+          "owner": "Business owner 002",
+          "data_classification": "internal",
+          "target_profile_outcomes": [
+            "PR.AA-05"
+          ],
+          "origin": "fictional HR and business-service enrichment"
+        }
+      },
+      {
+        "turn": 5,
+        "tool": "close_cluster",
+        "arguments": {
+          "cluster_id": "leaver-access:P0001:support",
+          "disposition": "contradicted",
+          "rationale": "Identity disable observed with no subsequent qualifying authentication or web activity posts termination within this window.",
+          "evidence_ids": [
+            "HR-0001",
+            "OKTA-P1-DISABLE"
+          ]
+        },
+        "accepted": true,
+        "result": {
+          "accepted": true,
+          "cluster_id": "leaver-access:P0001:support",
+          "disposition": "contradicted",
+          "rationale": "Identity disable observed with no subsequent qualifying authentication or web activity posts termination within this window.",
+          "evidence_ids": [
+            "HR-0001",
+            "OKTA-P1-DISABLE"
+          ]
+        }
+      },
+      {
+        "turn": 5,
+        "tool": "close_cluster",
+        "arguments": {
+          "cluster_id": "leaver-access:P0002:support",
+          "disposition": "insufficient-evidence",
+          "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+          "evidence_ids": [
+            "HR-0002"
+          ]
+        },
+        "accepted": true,
+        "result": {
+          "accepted": true,
+          "cluster_id": "leaver-access:P0002:support",
+          "disposition": "insufficient-evidence",
+          "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+          "evidence_ids": [
+            "HR-0002"
+          ]
+        }
+      },
+      {
+        "turn": 5,
+        "tool": "close_cluster",
+        "arguments": {
+          "cluster_id": "leaver-access:P0003:support",
+          "disposition": "insufficient-evidence",
+          "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+          "evidence_ids": [
+            "HR-0003"
+          ]
+        },
+        "accepted": true,
+        "result": {
+          "accepted": true,
+          "cluster_id": "leaver-access:P0003:support",
+          "disposition": "insufficient-evidence",
+          "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+          "evidence_ids": [
+            "HR-0003"
+          ]
+        }
+      },
+      {
+        "turn": 5,
+        "tool": "close_cluster",
+        "arguments": {
+          "cluster_id": "leaver-access:P0004:support",
+          "disposition": "insufficient-evidence",
+          "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+          "evidence_ids": [
+            "HR-0004"
+          ]
+        },
+        "accepted": true,
+        "result": {
+          "accepted": true,
+          "cluster_id": "leaver-access:P0004:support",
+          "disposition": "insufficient-evidence",
+          "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+          "evidence_ids": [
+            "HR-0004"
+          ]
+        }
+      },
+      {
+        "turn": 5,
+        "tool": "close_cluster",
+        "arguments": {
+          "cluster_id": "leaver-access:P0005:finance",
+          "disposition": "insufficient-evidence",
+          "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+          "evidence_ids": [
+            "HR-0005"
+          ]
+        },
+        "accepted": true,
+        "result": {
+          "accepted": true,
+          "cluster_id": "leaver-access:P0005:finance",
+          "disposition": "insufficient-evidence",
+          "rationale": "No observed identities or qualifying access events following termination; HR expected identity alone insufficient to confirm activity.",
+          "evidence_ids": [
+            "HR-0005"
+          ]
+        }
+      },
+      {
+        "turn": 6,
+        "tool": "submit_statement",
+        "arguments": {
+          "cluster_id": "leaver-access:P0006:engineering",
+          "observed_condition": "Terminated P0006 observed with exactly one identity (00u0006), successful authentication and allowed web activity to engineering service after termination and after disable event (if any).",
+          "statement": "If access by terminated worker P0006 acts through observed successful authentication and allowed web activity with identity 00u0006, then potential unauthorized access to internal engineering delivery platform may occur, affecting software-delivery objective.",
+          "threat_event": "Unauthorized access by terminated employee to internal engineering delivery platform.",
+          "potential_consequence": "Potential unauthorized access to sensitive engineering resources affecting software delivery objectives.",
+          "assumptions": [
+            "Access by the observed identity is controlled and validatable.",
+            "Observed web activity indicates active use of the service by the terminated employee.",
+            "No disable event was observed or was before the access events."
+          ],
+          "open_questions": [
+            "Was the observed activity authorized or a policy violation?",
+            "Was the terminated employee's access revoked properly?",
+            "Are there any logs indicating data exfiltration or misuse?"
+          ],
+          "evidence_ids": [
+            "HR-0006",
+            "OKTA-P6-B2",
+            "ZIA-P6-B2"
+          ]
+        },
+        "accepted": true,
+        "result": {
+          "cluster_id": "leaver-access:P0006:engineering",
+          "observed_condition": "Terminated P0006 observed with exactly one identity (00u0006), successful authentication and allowed web activity to engineering service after termination and after disable event (if any).",
+          "statement": "If access by terminated worker P0006 acts through observed successful authentication and allowed web activity with identity 00u0006, then potential unauthorized access to internal engineering delivery platform may occur, affecting software-delivery objective.",
+          "threat_event": "Unauthorized access by terminated employee to internal engineering delivery platform.",
+          "potential_consequence": "Potential unauthorized access to sensitive engineering resources affecting software delivery objectives.",
+          "assumptions": [
+            "Access by the observed identity is controlled and validatable.",
+            "Observed web activity indicates active use of the service by the terminated employee.",
+            "No disable event was observed or was before the access events."
+          ],
+          "open_questions": [
+            "Was the observed activity authorized or a policy violation?",
+            "Was the terminated employee's access revoked properly?",
+            "Are there any logs indicating data exfiltration or misuse?"
+          ],
+          "evidence_ids": [
+            "HR-0006",
+            "OKTA-P6-B2",
+            "ZIA-P6-B2"
+          ],
+          "scenario_id": "leaver-access:P0006:engineering",
+          "person_id": "P0006",
+          "service": "Engineering delivery platform",
+          "objective": "software-delivery",
+          "profile_outcome": "PR.AA-05",
+          "condition_status": "candidate",
+          "context_origin": "fictional HR and business-service enrichment",
+          "review_status": "candidate-human-review-required",
+          "risk_scenario": {
+            "schema_version": "1.0.0",
+            "scenario_id": "leaver-access:P0006:engineering",
+            "bundle_id": "leaver-access:P0006:engineering",
+            "collection_batch": 2,
+            "observed_condition": "Terminated P0006 observed with exactly one identity (00u0006), successful authentication and allowed web activity to engineering service after termination and after disable event (if any).",
+            "threat_event": "Unauthorized access by terminated employee to internal engineering delivery platform.",
+            "potential_consequence": "Potential unauthorized access to sensitive engineering resources affecting software delivery objectives.",
+            "risk_statement": "If access by terminated worker P0006 acts through observed successful authentication and allowed web activity with identity 00u0006, then potential unauthorized access to internal engineering delivery platform may occur, affecting software-delivery objective.",
+            "business_context": {
+              "objective_id": "OBJ-003",
+              "objective": "software-delivery",
+              "service": "Engineering delivery platform",
+              "owner": "Business owner 002",
+              "data_classification": "internal",
+              "target_profile_outcomes": [
+                "PR.AA-05"
+              ],
+              "origin": "fictional HR and business-service enrichment"
+            },
+            "evidence_ids": [
+              "HR-0006",
+              "OKTA-P6-B2",
+              "ZIA-P6-B2"
+            ],
+            "assumptions": [
+              "Access by the observed identity is controlled and validatable.",
+              "Observed web activity indicates active use of the service by the terminated employee.",
+              "No disable event was observed or was before the access events."
+            ],
+            "open_questions": [
+              "Was the observed activity authorized or a policy violation?",
+              "Was the terminated employee's access revoked properly?",
+              "Are there any logs indicating data exfiltration or misuse?"
+            ],
+            "review_status": "candidate-human-review-required",
+            "origin": "model-generated"
+          }
+        }
+      },
+      {
+        "turn": 7,
+        "tool": "close_cluster",
+        "arguments": {
+          "cluster_id": "leaver-access:P0006:engineering",
+          "disposition": "candidate-submitted",
+          "rationale": "Candidate risk statement submitted for terminated employee P0006 with observed post-termination authentication and allowed web activity.",
+          "evidence_ids": [
+            "HR-0006",
+            "OKTA-P6-B2",
+            "ZIA-P6-B2"
+          ]
+        },
+        "accepted": true,
+        "result": {
+          "accepted": true,
+          "cluster_id": "leaver-access:P0006:engineering",
+          "disposition": "candidate-submitted",
+          "rationale": "Candidate risk statement submitted for terminated employee P0006 with observed post-termination authentication and allowed web activity.",
+          "evidence_ids": [
+            "HR-0006",
+            "OKTA-P6-B2",
+            "ZIA-P6-B2"
+          ]
+        }
+      }
+    ],
+    "usage": {
+      "input_tokens": 23608,
+      "output_tokens": 963,
+      "total_tokens": 24571
+    },
+    "model": "gpt-4.1-mini-2025-04-14",
+    "response_id": "resp_00d13a9b799039b2006a9d1099970c87d0a10a3da9ade96a67"
+  }
+}
