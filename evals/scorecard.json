@@ -1,0 +1,22 @@
+{
+  "benchmark": "Author-labeled synthetic cases for testing the lab harness; not independent real-world validation.",
+  "cases": 12,
+  "correct_dispositions": 12,
+  "observed_cases_match_benchmark": true,
+  "disposition_accuracy": 1.0,
+  "candidate_precision": 1.0,
+  "candidate_recall": 1.0,
+  "unsupported_candidates": 0,
+  "citation_sets_valid": true,
+  "assessment_language_violations": 0,
+  "tool_calls": 47,
+  "tool_budget_respected": true,
+  "agent_trace_verified": true,
+  "baseline_correct_dispositions": 12,
+  "model_additional_correct_dispositions": 0,
+  "models": [
+    "gpt-4.1-mini-2025-04-14"
+  ],
+  "interpretation": "This benchmark tests known-case behavior. It does not establish model superiority or semantic correctness of business consequences.",
+  "passed": true
+}

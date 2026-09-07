@@ -1,0 +1,51 @@
+{
+  "registry_version": "1.0.0",
+  "sources": [
+    {
+      "source_id": "okta-system-log",
+      "label": "Okta System Log",
+      "role": "security-telemetry",
+      "format": "jsonl",
+      "relative_path": "raw/okta_system_log.jsonl",
+      "adapter": "okta",
+      "count_key": "okta",
+      "record_id_path": "uuid",
+      "batch_path": "_collection.batch_id",
+      "required_for": ["leaver-access-v1"]
+    },
+    {
+      "source_id": "zscaler-nss-web",
+      "label": "Zscaler NSS Web",
+      "role": "security-telemetry",
+      "format": "jsonl",
+      "relative_path": "raw/zscaler_nss_web.jsonl",
+      "adapter": "zscaler",
+      "count_key": "zscaler",
+      "record_id_path": "event_id",
+      "batch_path": "_collection.batch_id",
+      "required_for": ["leaver-access-v1"]
+    },
+    {
+      "source_id": "hris-worker-snapshot",
+      "label": "HRIS worker snapshot",
+      "role": "identity-context",
+      "format": "jsonl",
+      "relative_path": "raw/hr_workers.jsonl",
+      "adapter": "hr",
+      "count_key": "hr",
+      "record_id_path": "evidence_id",
+      "required_for": ["leaver-access-v1"]
+    },
+    {
+      "source_id": "business-service-catalog",
+      "label": "Business service catalog",
+      "role": "business-context",
+      "format": "json",
+      "relative_path": "context/business_services.json",
+      "adapter": "business_services",
+      "count_key": "business_services",
+      "record_id_path": "service_id",
+      "required_for": ["leaver-access-v1"]
+    }
+  ]
+}

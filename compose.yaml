@@ -1,0 +1,13 @@
+services:
+  lab:
+    build: .
+    ports:
+      - "127.0.0.1:8888:8888"
+    environment:
+      - OPENAI_API_KEY
+    volumes:
+      - lab-data:/lab/data
+      - lab-runtime:/lab/runtime
+volumes:
+  lab-data:
+  lab-runtime:
